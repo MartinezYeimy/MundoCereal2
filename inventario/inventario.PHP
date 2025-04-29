@@ -1,80 +1,161 @@
 <?php
 include 'Conexion_db.php'; // Conexión a la base de datos
 
-$sql = "SELECT * FROM inventario";
-$result = $conn->query($sql);
+// Verificamos si se está buscando un producto
+$buscar = isset($_GET['buscar']) ? $_GET['buscar'] : '';
 
+// Hacemos el INNER JOIN para traer también nombre y gramaje y aplicamos la búsqueda si se ingresó algo
+$sql = "SELECT 
+            i.id_Inventario, 
+            i.cantidad, 
+            i.precio_unitario, 
+            i.precio_total, 
+            i.id_producto, 
+            p.nombre AS producto_nombre, 
+            p.gramaje AS producto_gramaje
+        FROM inventario i
+        INNER JOIN producto p ON i.id_producto = p.id_producto
+        WHERE p.nombre LIKE '%$buscar%' OR p.gramaje LIKE '%$buscar%'";
+
+$result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Inventario</title>
+    <title>Inventario de Productos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f6f8;
+            font-family: 'Poppins', sans-serif;
+            background: #f0f2f5;
             margin: 0;
             padding: 0;
         }
+
         header {
-            background-color: #4CAF50;
+            background: linear-gradient(135deg, #43cea2, #185a9d);
             color: white;
-            padding: 15px;
             text-align: center;
-            font-size: 24px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-        .container {
-            width: 90%;
-            margin: 30px auto;
-            background-color: white;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            font-size: 2rem;
         }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        .add-button {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .add-button:hover {
+            background: #2c80b4;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            min-width: 1000px;
         }
+
         th, td {
-            border-bottom: 1px solid #ddd;
-            padding: 12px;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
             text-align: center;
         }
+
         th {
-            background-color: #f1f1f1;
-            color: #333;
+            background-color: #f8f5f5;
+            font-weight: bold;
         }
+
         tr:hover {
-            background-color: #f9f9f9;
+            background-color: #faf6f6;
         }
+
         .button {
-            display: inline-block;
-            padding: 8px 15px;
-            margin: 5px;
-            background-color: #4CAF50;
+            padding: 8px 12px;
             color: white;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 6px;
             font-size: 14px;
+            margin: 2px;
+            display: inline-block;
         }
-        .button:hover {
-            background-color: #45a049;
+
+        .edit {
+            background: #43cea2;
         }
+
+        .edit:hover {
+            background: #36b191;
+        }
+
         .delete {
-            background-color: #f44336;
+            background: #e74c3c;
         }
+
         .delete:hover {
-            background-color: #e53935;
+            background: #c0392b;
         }
-        .add-button {
-            background-color: #2196F3;
+
+        .search-form {
+            margin-bottom: 20px;
+            text-align: right;
         }
-        .add-button:hover {
-            background-color: #1976D2;
+
+        .search-form input[type="text"] {
+            padding: 8px;
+            width: 200px;
+            border-radius: 8px;
+        }
+
+        .search-form button {
+            padding: 8px 16px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 8px;
+            margin-left: 10px;
+        }
+
+        @media (max-width: 768px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            thead tr {
+                display: none;
+            }
+
+            td {
+                position: relative;
+                padding-left: 50%;
+                margin-bottom: 12px;
+                text-align: left;
+            }
+
+            td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 15px;
+                font-weight: bold;
+                color: #555;
+            }
         }
     </style>
 </head>
@@ -85,8 +166,14 @@ $result = $conn->query($sql);
 </header>
 
 <div class="container">
-    <div style="text-align:right;">
-        <a href="agregar.php" class="button add-button">Agregar Nuevo Producto</a>
+    <!-- Formulario de búsqueda -->
+    <div class="search-form">
+    <a href="agregar.php" class="add-button">Agregar Nuevo Producto</a>
+        <form method="get" action="">
+            <input type="text" name="buscar" placeholder="Buscar producto..." value="<?php echo htmlspecialchars($buscar); ?>">
+            <button type="submit">Buscar</button>
+        </form>
+        
     </div>
 
     <table>
@@ -96,7 +183,8 @@ $result = $conn->query($sql);
                 <th>Producto</th>
                 <th>Gramaje</th>
                 <th>Cantidad</th>
-                
+                <th>Precio Unitario</th>
+                <th>Precio Total</th>
                 <th>ID Producto</th>
                 <th>Acciones</th>
             </tr>
@@ -106,20 +194,21 @@ $result = $conn->query($sql);
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
                     echo "<tr>
-                        <td>" . $row["id_inventario"] . "</td>
-                        <td>" . $row["producto"] . "</td>
-                        <td>" . $row["gramage"] . "</td>
+                        <td>" . $row["id_Inventario"] . "</td>
+                        <td>" . htmlspecialchars($row["producto_nombre"]) . "</td>
+                        <td>" . htmlspecialchars($row["producto_gramaje"]) . "</td>
                         <td>" . $row["cantidad"] . "</td>
-                        
+                        <td>$" . number_format($row["precio_unitario"], 2) . "</td>
+                        <td>$" . number_format($row["precio_total"], 2) . "</td>
                         <td>" . $row["id_producto"] . "</td>
                         <td>
-                            <a href='editar.php?id=" . $row["id_inventario"] . "' class='button'>Editar</a>
-                            <a href='eliminar.php?id=" . $row["id_inventario"] . "' class='button delete' onclick=\"return confirm('¿Estás seguro que deseas eliminar este producto?');\">Eliminar</a>
+                            <a href='editar.php?id=" . $row["id_Inventario"] . "' class='button edit'>Editar</a>
+                            <a href='eliminar.php?id=" . $row["id_Inventario"] . "' class='button delete' onclick=\"return confirm('¿Estás seguro que deseas eliminar este producto?');\">Eliminar</a>
                         </td>
                     </tr>";
                 }
             } else {
-                echo "<tr><td colspan='7'>No hay productos en el inventario.</td></tr>";
+                echo "<tr><td colspan='8'>No hay productos que coincidan con la búsqueda.</td></tr>";
             }
             ?>
         </tbody>
