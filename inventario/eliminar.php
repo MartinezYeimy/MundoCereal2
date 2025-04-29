@@ -1,5 +1,5 @@
 <?php
-include 'Conexion_db.php';
+include '../dt_base/Conexion_db.php';
 
 if (isset($_GET['id'])) {
     $id = intval($_GET['id']); // Asegura que $id sea un número entero

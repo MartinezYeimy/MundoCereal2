@@ -1,5 +1,5 @@
 <?php
-include 'Conexion_db.php';
+include '../dt_base/Conexion_db.php';
 
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $id_inventario = intval($_GET['id']);

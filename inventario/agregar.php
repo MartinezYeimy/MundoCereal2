@@ -1,5 +1,5 @@
 <?php
-include 'Conexion_db.php';
+include '../dt_base/Conexion_db.php';
 
 // Verificar si el formulario ha sido enviado
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

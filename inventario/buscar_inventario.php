@@ -1,5 +1,5 @@
 <?php
-include 'Conexion_db.php';
+include '../dt_base/Conexion_db.php';
 
 $q = isset($_GET['q']) ? $conn->real_escape_string($_GET['q']) : '';
 

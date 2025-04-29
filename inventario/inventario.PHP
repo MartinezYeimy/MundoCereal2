@@ -1,5 +1,5 @@
 <?php
-include 'Conexion_db.php'; // Conexión a la base de datos
+include '../dt_base/Conexion_db.php';
 
 // Verificamos si se está buscando un producto
 $buscar = isset($_GET['buscar']) ? $_GET['buscar'] : '';
