@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Administrador</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    
+    <nav class="nav">
+        <ul class="list">
+
+            <li class="list__item">
+                <div class="list__button">
+                    <img src="assets/dashboard.svg" class="list__img">
+                    <a href="#" class="nav__link">Inicio</a>
+                </div>
+            </li>
+
+            <li class="list__item list__item--click">
+                <div class="list__button list__button--click">
+                    <img src="assets/stats.svg" class="list__img">
+                    <a href="#" class="nav__link">producto</a>
+                    <img src="assets/arrow.svg" class="list__arrow">
+                </div>
+
+                <ul class="list__show">
+                    <li class="list__inside">
+                        <a href="producto/inventario.php" class="nav__link nav__link--inside">Mostrar producto</a>
+                    </li>
+
+                    <li class="list__inside">
+                        <a href="producto/agregar.php" class="nav__link nav__link--inside">Consultar producto</a>
+                    </li>
+                
+                </ul>
+                
+            </li>
+
+            <li class="list__item list__item--click">
+                <div class="list__button list__button--click">
+                    <img src="assets/pedi.svg" class="list__img">
+                    <a href="#" class="nav__link">Pedidos</a>
+                    <img src="assets/arrow.svg" class="list__arrow">
+                </div>
+
+                <ul class="list__show">
+                    <li class="list__inside">
+                        <a href="producto/inventario.php" class="nav__link nav__link--inside">Mostrar pedidos</a>
+                    </li>
+
+                    <li class="list__inside">
+                        <a href="producto/agregar.php" class="nav__link nav__link--inside">Consultar pedidos</a>
+                    </li>
+                </ul>
+                
+
+            </li>
+
+            <li class="list__item">
+                <div class="list__button">
+                    <img src="assets/bell.svg" class="list__img">
+                    <a href="../factura.php" class="nav__link">Factura</a>
+                </div>
+            </li>
+
+            <li class="list__item">
+                <div class="list__button">
+                    <img src="assets/backk.svg" class="list__img">
+                    <a href="#" class="nav__link">Cerrar sesión</a>
+                </div>
+            </li>
+
+        </ul>
+    </nav>
+
+    <script src="main.js"></script>
+</body>
+</html>

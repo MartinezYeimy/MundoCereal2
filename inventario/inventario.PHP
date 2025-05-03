@@ -203,7 +203,7 @@ $result = $conn->query($sql);
                         <td>" . $row["id_producto"] . "</td>
                         <td>
                             <a href='editar.php?id=" . $row["id_Inventario"] . "' class='button edit'>Editar</a>
-                            <a href='eliminar.php?id=" . $row["id_Inventario"] . "' class='button delete' onclick=\"return confirm('¿Estás seguro que deseas eliminar este producto?');\">Eliminar</a>
+                            
                         </td>
                     </tr>";
                 }
