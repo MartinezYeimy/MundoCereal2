@@ -1,6 +1,8 @@
 <?php
 include '../dt_base/Conexion_db.php';
 
+$id = $_GET['id'];
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $codigo = $_POST['codigo'];
     $nombre = $_POST['nombre'];
@@ -8,25 +10,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $precio = $_POST['precio_unitario'];
     $lote = $_POST['lote'];
 
-    $sql = "INSERT INTO producto (codigo, nombre, gramaje, precio_unitario, lote) VALUES (?, ?, ?, ?, ?)";
+    $sql = "UPDATE producto SET codigo=?, nombre=?, gramaje=?, precio_unitario=?, lote=? WHERE id_Producto=?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssdis", $codigo, $nombre, $gramaje, $precio, $lote);
+    $stmt->bind_param("ssdssi", $codigo, $nombre, $gramaje, $precio, $lote, $id);
     $stmt->execute();
 
     header("Location: mostrar.php");
     exit();
 }
+
+$sql = "SELECT * FROM producto WHERE id_Producto=?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$resultado = $stmt->get_result();
+$row = $resultado->fetch_assoc();
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Agregar Producto</title>
+    <title>Editar Producto</title>
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
-            background-color: #eef2f5;
+            background-color: #f4f6f8;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -34,10 +43,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         .form-container {
-            background-color: #ffffff;
+            background-color: white;
             padding: 30px 40px;
             border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 500px;
         }
@@ -50,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         label {
             display: block;
-            margin-bottom: 6px;
+            margin-bottom: 5px;
             font-weight: 600;
             color: #34495e;
         }
@@ -70,16 +79,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             width: 100%;
             padding: 12px;
             border: none;
-            background-color: #27ae60;
+            background-color: #3498db;
             color: white;
             font-size: 16px;
             border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s;
         }
 
         input[type="submit"]:hover {
-            background-color: #219150;
+            background-color: #2980b9;
         }
 
         .back-link {
@@ -88,7 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         .back-link a {
-            color: #2980b9;
+            color: #3498db;
             text-decoration: none;
         }
 
@@ -100,24 +109,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 
 <div class="form-container">
-    <h2>Agregar Producto</h2>
+    <h2>Editar Producto</h2>
     <form method="POST">
         <label for="codigo">Código:</label>
-        <input type="text" name="codigo" id="codigo" required>
+        <input type="text" name="codigo" id="codigo" value="<?= htmlspecialchars($row['codigo']) ?>" required>
 
         <label for="nombre">Nombre:</label>
-        <input type="text" name="nombre" id="nombre" required>
+        <input type="text" name="nombre" id="nombre" value="<?= htmlspecialchars($row['nombre']) ?>" required>
 
         <label for="gramaje">Gramaje:</label>
-        <input type="text" name="gramaje" id="gramaje" required>
+        <input type="text" name="gramaje" id="gramaje" value="<?= htmlspecialchars($row['gramaje']) ?>" required>
 
         <label for="precio_unitario">Precio Unitario:</label>
-        <input type="number" step="0.01" name="precio_unitario" id="precio_unitario" required>
+        <input type="number" step="0.01" name="precio_unitario" id="precio_unitario" value="<?= htmlspecialchars($row['precio_unitario']) ?>" required>
 
         <label for="lote">Lote:</label>
-        <input type="text" name="lote" id="lote" required>
+        <input type="text" name="lote" id="lote" value="<?= htmlspecialchars($row['lote']) ?>" required>
 
-        <input type="submit" value="Agregar">
+        <input type="submit" value="Actualizar">
     </form>
 
     <div class="back-link">
