@@ -1,6 +1,26 @@
 <?php
 include '../dt_base/Conexion_db.php';
 
+
+if (isset($_POST['actualizar'])) {
+    $updateSql = "
+    UPDATE inventario i
+    INNER JOIN producto p ON i.id_producto = p.id_producto
+    SET 
+        i.producto = p.nombre,
+        i.gramaje = p.gramaje,
+        i.precio_unitario = p.precio_unitario
+";
+
+
+    if ($conn->query($updateSql) === TRUE) {
+        echo "<script>alert('✅ Inventario actualizado correctamente.'); window.location.href=window.location.href;</script>";
+    } else {
+        echo "<script>alert('❌ Error al actualizar inventario: " . $conn->error . "');</script>";
+    }
+}
+
+
 // Verificamos si se está buscando un producto
 $buscar = isset($_GET['buscar']) ? $_GET['buscar'] : '';
 
@@ -173,6 +193,10 @@ $result = $conn->query($sql);
             <input type="text" name="buscar" placeholder="Buscar producto..." value="<?php echo htmlspecialchars($buscar); ?>">
             <button type="submit">Buscar</button>
         </form>
+        <form method="post" action="">
+    <button type="submit" name="actualizar" class="add-button" style="background-color: #2ecc71;">Actualizar Inventario</button>
+</form>
+
         
     </div>
 

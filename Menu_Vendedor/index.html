@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú vendedor</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    
+    <nav class="nav">
+        <ul class="list">
+
+            <button id="toggle-menu" class="toggle-button">☰</button>
+
+            <li class="list__item">
+                <div class="list__button">
+                    <img src="assets/dashboard.svg" class="list__img">
+                    <a href="#" class="nav__link">Inicio</a>
+                </div>
+            </li>
+            
+            <li class="list__item list__item--click">
+                <div class="list__button list__button--click">
+                    <img src="assets/inv.svg" class="list__img">
+                    <a href="#" class="nav__link">Inventario</a>
+                </div>                
+            </li>
+
+            <li class="list__item list__item--click">
+                <div class="list__button list__button--click">
+                    <img src="assets/pedido.svg" class="list__img">
+                    <a href="#" class="nav__link">Pedidos</a>
+                </div>
+            </li>
+
+            <li class="list__item list__item--click">
+                <div class="list__button list__button--click">
+                    <img src="assets/user.svg" class="list__img">
+                    <a href="#" class="nav__link">Cliente</a>
+                </div>
+            </li>
+
+            <li class="list__item">
+                <div class="list__button">
+                    <img src="assets/backk.svg" class="list__img">
+                    <a href="#" class="nav__link">Cerrar sesión</a>
+                </div>
+            </li>
+
+        </ul>
+    </nav>
+
+    <script src="main.js"></script>
+</body>
+</html>
